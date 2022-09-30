@@ -1,24 +1,29 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
+
+import { ControlItem, Value} from '@app/model/frontend';
+export { ControlItem, Value} from '@app/model/frontend';
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
-  providers:  [
+  selector: 'app-select',
+  templateUrl: './select.component.html',
+  styleUrls: ['./select.component.scss'],
+  providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => SelectComponent),
       multi: true
     }
   ]
 })
-export class InputComponent implements OnInit, ControlValueAccessor {
+export class SelectComponent implements OnInit {
 
+  @Input() items: ControlItem[];
   @Input() placeholder: string;
-  @Output() changed = new EventEmitter<string>();
+  @Output() changed = new EventEmitter<Value>();
 
-  value: string;
+  value: Value;
   isDisabled: boolean;
 
   constructor() { }
@@ -45,14 +50,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
-  onKeyup(value: string) : void {
+  onChanged(event: MatSelectChange): void {
+    const value = event.value ? event.value : null;
     this.value = value;
     this.propagateChange(value);
-    this.changed.emit(value);
   }
 
   onBlur(): void {
-    this.propagateTouched()
+    this.propagateTouched();
   }
-
 }

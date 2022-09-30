@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
 import { SharedComponent } from './shared.component';
-import { ButtonModule } from '@app/shared';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule, ControlsModule } from '@app/shared';
 
 
 @NgModule({
@@ -11,7 +12,9 @@ import { ButtonModule } from '@app/shared';
   imports: [
     CommonModule,
     SharedRoutingModule,
-    ButtonModule
+    ButtonModule,
+    ReactiveFormsModule,
+    ControlsModule
   ]
 })
 export class SharedModule { }
